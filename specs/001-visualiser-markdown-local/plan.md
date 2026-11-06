@@ -78,7 +78,7 @@ avec dix documents ouverts ; une WKWebView est retenue par document, libérée �
 | I. macOS natif | SwiftUI/AppKit, WKWebView intégrée | Conforme : aucun serveur ou shell web |
 | II. Modularité | Responsabilités séparées | Conforme : dossiers et interfaces ciblées, un projet |
 | III. Interface simple | Parcours natifs, états explicites | Conforme : clavier, VoiceOver, clair/sombre prévus |
-| IV. Local et hors ligne | Pas de services ni ressources distantes | Conforme : CSP, règles WebKit, droits réseau absents |
+| IV. Local et hors ligne | Pas de services ni ressources distantes | Client requis au démarrage WebKit ; blocages CSP/règles/politique et contrôle d’absence de connexions automatiques |
 | V. Sources préservées | Aucun scénario d’écriture | Conforme : lecture seule, empreintes avant/après dans les tests |
 | VI. Rendu sûr | Entrées non fiables | Conforme : AST sûr, JS absent, ressources à jetons et périmètre strict |
 | VII. Swift maintenable | Adaptateurs et erreurs typées | Conforme : travail coûteux isolé, MainActor pour la présentation |
@@ -124,7 +124,7 @@ outilVizMd/
 ├── Themes/                        # palettes, styles, polices et contraste
 ├── Preferences/                   # validation et stockage JSON
 ├── Resources/                     # CSS de base, aide française, notices
-└── outilVizMd.entitlements         # sandbox + user-selected.read-only
+└── outilVizMd.entitlements         # sandbox + user-selected.read-only + client requis par WebKit
 outilVizMdTests/
 ├── Unit/
 ├── Integration/
@@ -177,8 +177,10 @@ ne pas activer JavaScript ni utiliser d’API WebKit privée pour contourner le 
   après annulation/fin des tâches ; relever les pics sur dix documents et les erreurs de processus WebKit.
 - Courses d’accès : lecture par descripteurs, refus des symlinks descendants et tests de remplacement
   pendant l’ouverture. Aucun élargissement d’autorisation lors d’une reprise.
-- Chaîne d’outils : Xcode complet non disponible aux emplacements standards sur ce Mac ; ses Command
-  Line Tools seuls ne compilent pas le projet Xcode. Voir les prérequis du quickstart.
+- Chaîne d’outils (état actualisé pendant l’implémentation) : Xcode est disponible dans
+  `/Applications/Xcode.app` ; utiliser le `DEVELOPER_DIR` du quickstart. Le build des fondations
+  et les 12 tests courants réussissent après ajout du droit client requis pour WebKit. T014 reste
+  à vérifier sur macOS 14. Voir `validation/webkit-feasibility.md` pour les preuves et limites.
 
 ## Complexity Tracking
 

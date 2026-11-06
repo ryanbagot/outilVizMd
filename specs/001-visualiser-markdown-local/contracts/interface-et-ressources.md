@@ -57,7 +57,10 @@ résolus côté natif. Ne jamais donner au HTML un lien file:// utilisable direc
 Avant toute page : JS désactivé, magasin non persistant, CSP et règles WebKit bloquant http/https.
 Les règles doivent être installées avec succès ; sinon le lecteur refuse d’afficher plutôt que de
 charger avec une protection absente. Refuser aussi les téléchargements et nouvelles fenêtres.
-L’absence de droits réseau de l’app est une défense supplémentaire, pas la seule barrière WebKit.
+Le droit réseau client est requis pour initialiser WebKit même sur une page locale ; aucun droit
+serveur n’est accordé. La présence de ce droit n’autorise aucun chargement automatique. Vérifier
+les refus avant envoi et l’absence de connexions sur le corpus passif ; les règles seules ne
+certifient pas l’absence de connexion spéculative lors d’une navigation réseau forcée.
 
 ## Contrats de test observables
 

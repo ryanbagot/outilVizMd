@@ -89,12 +89,24 @@ Sources : [recherche WebKit](https://developer.apple.com/documentation/webkit/wk
 
 ## 4. Accès aux fichiers
 
-**Décision** : App Sandbox, droits `user-selected.read-only`, sans droit réseau client/serveur,
-sans accès global aux dossiers usuels. NSOpenPanel donne accès au fichier ou dossier choisi.
+**Décision actualisée après T014** : App Sandbox, droits `user-selected.read-only` sur les documents,
+sans accès global aux dossiers usuels ni droit réseau serveur. Le droit réseau client est requis
+par l’initialisation des services WebKit, même pour un schéma local. L’absence de connexions
+automatiques demeure une obligation vérifiée via le rendu sûr, CSP, règles et politique native.
+NSOpenPanel donne accès au fichier ou dossier choisi.
 Conserver l’autorisation en session, libérer sa portée à la fin de son utilisation ; équilibrer
 les acquisitions explicites sans doubler celles déjà obtenues par le panneau système.
 Aucun bookmark persistant n’est nécessaire, la restauration des documents étant hors MVP.
 Une autorisation système ne remplace jamais le périmètre plus strict de l’application.
+
+L’essai comparatif T014 confirme : sans `com.apple.security.network.client`, WebKit termine
+ses services avant lecture ; avec ce seul ajout, le même test passe. Le contrôle est visible
+dans [XPCServiceInitializerDelegate::checkEntitlements](https://raw.githubusercontent.com/WebKit/WebKit/main/Source/WebKit/Shared/EntryPointUtilities/Cocoa/XPCService/XPCServiceEntryPoint.mm).
+La sonde d’affichage passif relève zéro connexion vers le serveur local témoin. Un test
+distinct forçant des navigations HTTP(S) avec délégué permissif obtient un refus de chargement
+mais peut établir des connexions spéculatives : les règles seules ne suffisent pas comme preuve
+d’absence de réseau. Voir `validation/webkit-feasibility.md` ; ne jamais transmettre ces URL
+au chargement WebKit dans le produit et ne jamais les réinjecter comme ressources du Markdown.
 
 L’adaptateur d’accès vérifie les composants du chemin puis lit via un descripteur en lecture seule.
 Les descendants sont ouverts relativement au descripteur du dossier autorisé, composant par

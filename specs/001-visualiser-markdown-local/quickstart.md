@@ -1,8 +1,11 @@
 # Guide de compilation et de validation — outilVizMd
 
-Ce guide décrit la validation de l’application **après implémentation**. Le présent workflow ne
-crée que les documents de conception : le projet Xcode, les fixtures et les tests cités ci-dessous
-restent à créer. Aucune commande de compilation ou test de ce guide n’a réussi à ce stade.
+Ce guide décrit la validation de l’application **après implémentation**. Au 2026-11-06, T001–T013
+sont terminées : projet Xcode, fixtures, supports et fondations créés ; compilation Debug arm64
+réussie. Les 12 tests actuels passent après ajout du droit client requis au démarrage de WebKit.
+T014 est validée sur le poste courant, mais reste non cochée pour sa vérification réelle macOS 14.
+Voir `validation/webkit-feasibility.md` pour les preuves et la portée des essais réseau.
+Les scénarios complets ci-dessous restent à exécuter après leur implémentation.
 
 ## Prérequis
 
@@ -14,17 +17,21 @@ restent à créer. Aucune commande de compilation ou test de ce guide n’a réu
 - Pour la première résolution SwiftPM : accès aux dépôts du graphe de dépendances. Ensuite conserver
   Package.resolved et le cache ; l’app construite n’a aucune dépendance réseau à l’exécution.
 - Signature locale configurée dans Xcode ; App Sandbox actif, user-selected.read-only seul droit
-  sur les documents. Ne pas désactiver le sandbox pour faire passer les tests.
+  sur les documents. Le droit réseau client est nécessaire au démarrage de WebKit, sans droit
+  serveur. Les connexions automatiques restent interdites et contrôlées par le rendu, CSP,
+  règles et politique native. Ne pas désactiver le sandbox pour faire passer les tests.
 
-État observé le 2026-11-06 sur ce poste : Swift 6.3.3 via Command Line Tools, mais pas de Xcode
-aux emplacements standards ; xcodebuild demande une installation complète. Ce prérequis reste
-à satisfaire pour la phase d’implémentation, sans bloquer l’usage des documents de planification.
+État actualisé le 2026-11-06 : Xcode 27.2 et Swift 6.4.2 disponibles dans `/Applications/Xcode.app`.
+La sélection globale pointe encore vers les Command Line Tools ; utiliser `DEVELOPER_DIR` comme
+ci-dessous sans modifier cette sélection. La signature ad hoc convient au développement local.
+La validation d’exécution macOS 14 et Intel reste à faire.
 
 ## Compiler, tester et lancer
 
 Depuis la racine du dépôt, après création du projet et de son scheme partagé :
 
 ```sh
+export DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer
 xcode-select -p
 xcodebuild -version
 xcrun swift --version
@@ -35,10 +42,17 @@ xcodebuild -project outilVizMd.xcodeproj -scheme outilVizMd -configuration Debug
 open outilVizMd.xcodeproj
 ```
 
-Résultats attendus : cibles outilVizMd, outilVizMdTests et outilVizMdUITests ; build réussi, tests
-réussis. Dans Xcode, choisir My Mac puis Product → Run (Cmd+R). Les prompts système de sélection
+Résultats attendus à terme : cibles outilVizMd, outilVizMdTests et outilVizMdUITests ; build et tests
+réussis. Les 12 tests disponibles passent ; T014 attend encore une exécution sur macOS 14.
+La cible UI vide n’est pas lancée ; elle sera activée automatiquement avec son premier test.
+Dans Xcode, choisir My Mac puis Product → Run (Cmd+R). Les prompts système de sélection
 font partie du parcours normal. Ne pas faire pointer les tests vers les documents personnels.
 Relancer build/test réseau déconnecté une fois les dépendances mises en cache.
+
+Pour la sonde locale des sous-ressources : `python3 scripts/verify-webkit-network.py`.
+Le script démarre temporairement un serveur sur 127.0.0.1:49183, vérifie qu’il est joignable,
+exécute le test d’affichage passif, exige zéro connexion, puis ferme le serveur. Il ne fait
+pas partie du produit livré et ne certifie pas encore tout le corpus de sécurité US6.
 
 ## Corpus de validation
 

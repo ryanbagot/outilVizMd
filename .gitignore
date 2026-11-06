@@ -1,0 +1,16 @@
+.DS_Store
+Thumbs.db
+.build/
+DerivedData/
+Packages/
+*.swiftpm/
+xcuserdata/
+*.xcuserstate
+*.xcresult/
+*.tmp
+*.swp
+.vscode/
+.idea/
+# Le graphe SwiftPM résolu du projet Xcode reste versionné.
+!outilVizMd.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/
+!outilVizMd.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved

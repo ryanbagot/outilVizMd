@@ -1,0 +1,6 @@
+[
+  {
+    "trigger": { "url-filter": "^https?://", "url-filter-is-case-sensitive": false },
+    "action": { "type": "block" }
+  }
+]

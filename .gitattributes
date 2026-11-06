@@ -1,2 +1,6 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Conserver les octets exacts de ces fixtures, notamment BOM/CRLF et UTF-8 invalide.
+outilVizMdTests/Fixtures/BOM-CRLF.md -text
+outilVizMdTests/Fixtures/InvalidUTF8.md -text
