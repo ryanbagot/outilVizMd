@@ -28,7 +28,7 @@ pas au contenu métier et disparaît à la fermeture du document.
 ## Validations
 
 - Taille maximale document : 10 × 1 024 × 1 024 octets ; ne jamais lire sans borne après un simple stat.
-- Décodage UTF-8 strict ; BOM toléré pour le décodage, conservé dans les octets de référence.
+- Décodage UTF-8 strict, octets NUL refusés comme contenu non textuel ; BOM toléré pour le décodage, conservé dans les octets de référence.
   Aucune normalisation du fichier source. Les fins de ligne peuvent être normalisées en mémoire.
 - Autorisation vérifiée pour chaque lecture, y compris ressources et réouverture après remplacement.
   Les chemins sont comparés par composants ; un préfixe textuel commun ne vaut pas appartenance.

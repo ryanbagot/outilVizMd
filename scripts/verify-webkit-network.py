@@ -50,7 +50,7 @@ with ProbeServer(('127.0.0.1', 49183), Handler) as server:
         assert positive_count == 1
         server.count = 0
         server.payloads.clear()
-    command = ['env', 'DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer', 'xcodebuild', '-quiet', '-project', 'outilVizMd.xcodeproj', '-scheme', 'outilVizMd', '-configuration', 'Debug', '-destination', 'platform=macOS,arch=arm64', '-derivedDataPath', '/tmp/outilVizMd-derived', '-only-testing:outilVizMdTests/WebKitFeasibilityTests/testRemoteSubresourcesRemainBlockedOnLocalPageWithClientEntitlement', 'test']
+    command = ['env', 'DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer', 'xcodebuild', '-quiet', '-project', 'outilVizMd.xcodeproj', '-scheme', 'outilVizMd', '-configuration', 'Debug', '-destination', 'platform=macOS,arch=arm64', '-derivedDataPath', '/tmp/outilVizMd-derived', '-only-testing:outilVizMdTests/WebKitFeasibilityTests/testRemoteSubresourcesRemainBlockedOnLocalPageWithClientEntitlement', '-only-testing:outilVizMdTests/NoAutomaticNetworkTests', 'test']
     result = subprocess.run(command, cwd=PROJECT, capture_output=True, text=True, timeout=180)
     server.shutdown()
     with server.lock:
@@ -61,7 +61,7 @@ with ProbeServer(('127.0.0.1', 49183), Handler) as server:
         'positive_control_connections': positive_count,
         'connections_during_webkit_tests': accepted,
         'xcodebuild_exit_code': result.returncode,
-        'tested': ['local-page HTTP/HTTPS images, CSS and iframe rejection'],
+        'tested': ['local-page HTTP/HTTPS images, CSS and iframe rejection', 'production renderer/controller hostile page with opaque links'],
         'received_payloads_hex': server.payloads,
         'scope': 'Un test d’affichage local ; ne certifie pas encore tous les parcours US6 ni toutes les tentatives DNS/connexions des services système.'
     }

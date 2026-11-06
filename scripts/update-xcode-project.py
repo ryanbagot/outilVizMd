@@ -66,7 +66,7 @@ for name, product_type, extension in targets:
     for config in ["Debug", "Release"]:
         settings = dict(PRODUCT_NAME="$(TARGET_NAME)", PRODUCT_BUNDLE_IDENTIFIER="com.outilvizmd." + name, GENERATE_INFOPLIST_FILE="YES", CODE_SIGN_IDENTITY="-", CODE_SIGN_STYLE="Manual", SWIFT_VERSION="5.0", SWIFT_STRICT_CONCURRENCY="complete", MACOSX_DEPLOYMENT_TARGET="14.0", LD_RUNPATH_SEARCH_PATHS=["$(inherited)", "@executable_path/../Frameworks", "@loader_path/../Frameworks"])
         if name == "outilVizMd":
-            settings.update(CODE_SIGN_ENTITLEMENTS="outilVizMd/outilVizMd.entitlements", ENABLE_APP_SANDBOX="YES", ENABLE_USER_SELECTED_FILES="readonly", INFOPLIST_KEY_LSApplicationCategoryType="public.app-category.productivity", INFOPLIST_KEY_CFBundleDisplayName="outilVizMd", MARKETING_VERSION="0.1.0", CURRENT_PROJECT_VERSION="1", ENABLE_HARDENED_RUNTIME="YES")
+            settings.update(CODE_SIGN_ENTITLEMENTS="outilVizMd/outilVizMd.entitlements", ENABLE_APP_SANDBOX="YES", ENABLE_USER_SELECTED_FILES="readonly", INFOPLIST_KEY_LSApplicationCategoryType="public.app-category.productivity", INFOPLIST_KEY_CFBundleDisplayName="outilVizMd", MARKETING_VERSION="0.1.0", CURRENT_PROJECT_VERSION="1", ENABLE_HARDENED_RUNTIME="YES", CODE_SIGN_INJECT_BASE_ENTITLEMENTS="YES" if config == "Debug" else "NO")
         elif name == "outilVizMdTests":
             settings.update(TEST_HOST="$(BUILT_PRODUCTS_DIR)/outilVizMd.app/Contents/MacOS/outilVizMd", BUNDLE_LOADER="$(TEST_HOST)")
         else:

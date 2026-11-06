@@ -96,9 +96,9 @@ et un bloc de code ; rechercher un terme, parcourir les résultats puis effacer 
    saisit du texte, **Then** les occurrences du texte affiché sont repérées et leur nombre indiqué.
 2. **Given** plusieurs résultats, **When** l’utilisateur choisit suivant ou précédent,
    **Then** la vue rejoint le résultat, indique sa position et boucle entre premier et dernier.
-3. **Given** une requête absente, vide ou composée de caractères spéciaux, **When** elle est saisie,
-   **Then** la recherche indique zéro résultat, retire les repères si vide et traite les caractères
-   comme du texte littéral ; elle ne distingue pas majuscules et minuscules, mais distingue les accents.
+3. **Given** une requête absente du texte, vide ou composée de caractères spéciaux, **When** elle est saisie,
+   **Then** la recherche indique zéro résultat si la requête est absente du texte ou vide, retire les repères si vide et traite les caractères
+   spéciaux comme du texte littéral, y compris lorsqu’ils sont présents dans le document ; elle ne distingue pas majuscules et minuscules, mais distingue les accents.
 4. **Given** une recherche active, **When** elle est fermée ou le document actif change,
    **Then** ses repères sont retirés et sa requête est réinitialisée, sans modifier le document.
 
@@ -197,7 +197,7 @@ les refus et vérifier les sources et l’absence de connexions automatiques.
 - Fichier supprimé avant sa première lecture : erreur sans aperçu trompeur ; après lecture réussie,
   conservation du dernier aperçu explicitement signalé comme non à jour.
 - Fichier vide : état « Document vide », recherche à zéro résultat et navigation utilisable.
-- Fichier non textuel ou encodage non pris en charge : refus explicite, aucune conversion implicite.
+- Fichier non textuel (présence d’un octet NUL) ou encodage non pris en charge : refus explicite, aucune conversion implicite.
 - Document supérieur à 10 Mio : refus explicite avec la limite et possibilité d’ouvrir un autre fichier.
 - Markdown mal formé ou HTML brut : contenu traité comme texte ou neutralisé ; aucune exécution.
 - Image absente, illisible, hors périmètre, distante ou de format non pris en charge : texte alternatif

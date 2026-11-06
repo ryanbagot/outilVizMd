@@ -1,11 +1,12 @@
 {
-  "date_utc": "2026-11-06T18:18:19.246059+00:00",
+  "date_utc": "2026-11-06T22:30:29.403244+00:00",
   "listener": "127.0.0.1:49183",
   "positive_control_connections": 1,
   "connections_during_webkit_tests": 0,
   "xcodebuild_exit_code": 0,
   "tested": [
-    "local-page HTTP/HTTPS images, CSS and iframe rejection"
+    "local-page HTTP/HTTPS images, CSS and iframe rejection",
+    "production renderer/controller hostile page with opaque links"
   ],
   "received_payloads_hex": [],
   "scope": "Un test d’affichage local ; ne certifie pas encore tous les parcours US6 ni toutes les tentatives DNS/connexions des services système."

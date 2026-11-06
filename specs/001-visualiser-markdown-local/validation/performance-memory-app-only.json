@@ -1,0 +1,14 @@
+{
+  "before" : {
+    "peak_resident_bytes_app_only" : 135872512,
+    "resident_bytes_app_only" : 135872512
+  },
+  "closed" : {
+    "peak_resident_bytes_app_only" : 266436608,
+    "resident_bytes_app_only" : 265519104
+  },
+  "ten_documents" : {
+    "peak_resident_bytes_app_only" : 266436608,
+    "resident_bytes_app_only" : 265355264
+  }
+}

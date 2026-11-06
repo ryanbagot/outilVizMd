@@ -1,11 +1,6 @@
 # Guide de compilation et de validation — outilVizMd
 
-Ce guide décrit la validation de l’application **après implémentation**. Au 2026-11-06, T001–T013
-sont terminées : projet Xcode, fixtures, supports et fondations créés ; compilation Debug arm64
-réussie. Les 12 tests actuels passent après ajout du droit client requis au démarrage de WebKit.
-T014 est validée sur le poste courant, mais reste non cochée pour sa vérification réelle macOS 14.
-Voir `validation/webkit-feasibility.md` pour les preuves et la portée des essais réseau.
-Les scénarios complets ci-dessous restent à exécuter après leur implémentation.
+Ce guide accompagne le lecteur implémenté : ouverture, navigation, recherche, réglages et suivi externe. Le passage complet du 2026-11-06 compte 59 tests réussis (six benchmarks explicites ignorés par défaut), dont les parcours UI. Les mesures et validations de plateforme ont leurs propres rapports sous `validation/` ; macOS 14, Intel, la coupure physique du réseau et le parcours avec cinq débutants ne sont pas certifiés par ce résultat.
 
 ## Prérequis
 
@@ -42,21 +37,21 @@ xcodebuild -project outilVizMd.xcodeproj -scheme outilVizMd -configuration Debug
 open outilVizMd.xcodeproj
 ```
 
-Résultats attendus à terme : cibles outilVizMd, outilVizMdTests et outilVizMdUITests ; build et tests
-réussis. Les 12 tests disponibles passent ; T014 attend encore une exécution sur macOS 14.
-La cible UI vide n’est pas lancée ; elle sera activée automatiquement avec son premier test.
+Les trois cibles outilVizMd, outilVizMdTests et outilVizMdUITests sont présentes et la cible UI est active. Les benchmarks sont explicites et ignorés par défaut ; les tests fonctionnels se lancent avec ⌘U. T083 conserve la validation réelle macOS 14.
 Dans Xcode, choisir My Mac puis Product → Run (Cmd+R). Les prompts système de sélection
 font partie du parcours normal. Ne pas faire pointer les tests vers les documents personnels.
 Relancer build/test réseau déconnecté une fois les dépendances mises en cache.
 
+Pour visualiser le résultat dans Xcode, ouvrir le fichier `.xcodeproj` lui-même, choisir le scheme outilVizMd / My Mac, puis ⌘R. ⌘6 affiche les tests ; ⌘9 affiche les rapports et leurs pièces jointes.
+
 Pour la sonde locale des sous-ressources : `python3 scripts/verify-webkit-network.py`.
 Le script démarre temporairement un serveur sur 127.0.0.1:49183, vérifie qu’il est joignable,
-exécute le test d’affichage passif, exige zéro connexion, puis ferme le serveur. Il ne fait
+exécute les tests d’affichage passif technique et de production, exige zéro connexion, puis ferme le serveur. Il ne fait
 pas partie du produit livré et ne certifie pas encore tout le corpus de sécurité US6.
 
 ## Corpus de validation
 
-Pendant l’implémentation, créer sous outilVizMdTests/Fixtures :
+Le corpus sous outilVizMdTests/Fixtures et les générateurs temporaires couvrent :
 
 - Un document CommonMark avec titres 1–6, emphase, listes imbriquées, citations, code clôturé et
   indenté, caractères spéciaux, Unicode et fins de ligne différentes ; tableaux simples et ancres.
@@ -97,7 +92,7 @@ ressources. Le serveur n’est jamais livré ni requis par l’application.
 
 ## Performance et critères de sortie
 
-Consigner Mac, mémoire, macOS, Xcode, build, tailles et empreintes du corpus. Les mesures respectent
+Les benchmarks explicites utilisent Release avec `ENABLE_TESTABILITY=YES OUTILVIZMD_PERFORMANCE=20` et `-only-testing:outilVizMdTests/ReadingPerformanceTests/testTwentyVisibleReadingMeasurements`. Les résultats JSON sont attachés à XCTest. Une première mesure peut être lancée avec la variable `TEST_RUNNER_OUTILVIZMD_PERFORMANCE=1` et `testVisibleReadingBaseline`. Consigner Mac, mémoire, macOS, Xcode, build, tailles et empreintes du corpus. Les mesures respectent
 [SC-001 à SC-008](spec.md#measurable-outcomes) : vingt répétitions, dix-neuf sous chaque seuil.
 Mesurer de l’action utilisateur au rendu utilisable, pas seulement le temps du parseur.
 

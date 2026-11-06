@@ -143,7 +143,7 @@ parseur, thèmes, préférences ou index.
 ### Séquencement de l’implémentation
 
 1. Créer le projet Xcode et les cibles, configurer les droits minimaux, épingler le moteur et vérifier
-   le chargement WebKit sans JS, les tableaux, les fragments et la recherche avec compteur sur macOS 14.
+   le chargement WebKit sans JS, les tableaux, les fragments et la recherche avec compteur sur le poste courant avec des APIs disponibles depuis macOS 14 ; réserver l’essai réel macOS 14 à la validation finale T083.
 2. Livrer la tranche P1 : ouverture, navigation locale, rendu sûr, ressources autorisées, erreurs,
    absence d’écriture et protection contre les entrées malveillantes.
 3. Ajouter les tranches P2 : recherche complète, thèmes/préférences et rafraîchissement externe,
@@ -179,8 +179,7 @@ ne pas activer JavaScript ni utiliser d’API WebKit privée pour contourner le 
   pendant l’ouverture. Aucun élargissement d’autorisation lors d’une reprise.
 - Chaîne d’outils (état actualisé pendant l’implémentation) : Xcode est disponible dans
   `/Applications/Xcode.app` ; utiliser le `DEVELOPER_DIR` du quickstart. Le build des fondations
-  et les 12 tests courants réussissent après ajout du droit client requis pour WebKit. T014 reste
-  à vérifier sur macOS 14. Voir `validation/webkit-feasibility.md` pour les preuves et limites.
+  et les 12 tests courants réussissent après ajout du droit client requis pour WebKit. La faisabilité T014 est validée sur ce poste ; T083 conserve l’essai réel macOS 14 avant livraison. Voir `validation/webkit-feasibility.md` pour les preuves et limites.
 
 ## Complexity Tracking
 

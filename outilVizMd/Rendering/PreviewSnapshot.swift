@@ -28,6 +28,27 @@ struct PreviewSnapshot: Sendable {
     let html: String
     let token: UUID
     let resources: [ResourceSnapshot]
+    let htmlData: Data
+    let links: [UUID: PreviewLink]
+    let fragments: Set<String>
+    let visibleText: VisibleTextProjection?
+    let imageResources: [Int: ResourceSnapshot]
+
+    init(version: PresentationVersion, html: String, token: UUID, resources: [ResourceSnapshot], links: [UUID: PreviewLink] = [:], fragments: Set<String> = [], visibleText: VisibleTextProjection? = nil, imageResources: [Int: ResourceSnapshot] = [:]) {
+        self.version = version
+        self.html = html
+        self.token = token
+        self.resources = resources
+        self.htmlData = Data(html.utf8)
+        self.links = links
+        self.fragments = fragments
+        self.visibleText = visibleText
+        self.imageResources = imageResources
+    }
 
     var resourceIDs: [UUID] { resources.map(\.id) }
+}
+
+enum PreviewLink: Sendable {
+    case web(URL), local(URL), fragment(String), refused
 }

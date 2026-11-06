@@ -22,5 +22,4 @@ Créer à l’exécution les fichiers de 10 Mio et 10 Mio + 1 octet, dossiers de
 liens symboliques (y compris cycles et permutations), fichiers spéciaux et cas de permissions.
 Ne pas versionner de gros fichiers ni de liens pouvant viser un emplacement personnel.
 
-Les recherches de caractères spéciaux sont littérales selon FR-006 ; la contradiction avec
-US3.3 relevée par l’analyse reste à résoudre avant l’implémentation de cette tranche.
+Les recherches de caractères spéciaux sont littérales selon FR-006 ; US3.3 a été clarifiée en conséquence. Une requête vide ou absente produit zéro résultat.

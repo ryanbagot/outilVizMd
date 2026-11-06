@@ -90,3 +90,10 @@ T001–T013 restent terminées. T014 demeure non cochée uniquement pour l’exi
 réelle sur macOS 14 ; compiler avec deployment target 14 ne la remplace pas. T015–T084 n’ont
 pas commencé. Le lecteur utilisateur reste à construire après le checkpoint. Les compléments
 de l’analyse, notamment la contradiction A1 de recherche, restent à traiter dans leurs tranches.
+
+## Réorganisation lors de la reprise
+
+La preuve technique T014 sur le poste courant est terminée et permet de poursuivre les parcours.
+La vérification sur une installation réelle macOS 14 est conservée dans T083 comme condition
+de livraison ; elle ne se confond pas avec une compilation visant macOS 14. Aucun résultat
+macOS 14 n’est annoncé. Ce changement de séquencement préserve les exigences du produit.

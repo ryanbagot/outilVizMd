@@ -1,0 +1,29 @@
+body { margin: 0; color: var(--reader-text); background: var(--reader-bg); overflow-wrap: anywhere; }
+main { max-width: 76ch; margin: 0 auto; padding: 32px 40px 80px; }
+h1,h2,h3,h4,h5,h6 { line-height: 1.25; margin-top: 1.5em; }
+h1 { font-size: 2em; padding-bottom: .25em; border-bottom: 1px solid currentColor; }
+a { color: var(--reader-link); text-underline-offset: .15em; }
+img { max-width: 100%; height: auto; }
+pre,code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; white-space: pre-wrap; }
+pre { padding: 16px; background: rgba(127,127,127,.12); border-radius: 8px; overflow: auto; }
+pre code { white-space: pre; overflow-wrap: normal; }
+blockquote { border-left: 3px solid #888; margin-left: 0; padding-left: 20px; }
+.table-scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: max-content; min-width: 60%; }
+td,th { border: 1px solid #888; padding: 8px 12px; }
+th { background: rgba(127,127,127,.12); }
+.unavailable { display: inline-block; border: 1px dashed #888; padding: 8px; font-size: .9em; }
+mark { color: #191919; background: #ffe26b; border-radius: 2px; }
+
+mark { background: #ffe681; color: #171717; scroll-margin-top: 3em; }
+mark.current-result { background: #ffb84d; outline: 2px solid #885400; }
+
+/* Optimisation progressive ; le moteur conserve le texte dans l’arbre accessible. */
+@supports (content-visibility: auto) {
+    main > p, main > pre, main > blockquote, main > ul, main > ol, main > .table-scroll {
+        content-visibility: auto;
+        contain-intrinsic-size: auto 180px;
+    }
+}
+
+.literal-html { white-space: pre-wrap; }
