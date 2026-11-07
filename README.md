@@ -43,3 +43,43 @@ Les contrôles avec réseau physiquement coupé, les plateformes non disponibles
 ## Organisation
 
 SwiftUI/AppKit pour l’interface ; acteurs pour accès, analyse, rendu, recherche, surveillance et stockage. `Documents` gère les accès et générations ; `Navigation` la session et l’arbre ; `Markdown` l’adaptateur ; `Rendering` WebKit/HTML/ressources ; `Search` les occurrences ; `Themes` et `Preferences` les réglages contrôlés. Les tests utilisent des copies temporaires et comparent les octets sources. Les préférences UI de test utilisent un espace isolé.
+
+## Installer dans Applications et au Bureau
+
+La préparation locale nécessite Xcode complet et Python 3. Elle conserve l’image originale « Icône Markdown personnalisable en couches.png », embarque ses dix tailles d’icône et produit une Release arm64 + x86_64 signée ad hoc avec les droits existants. Les sorties sont accessibles via `build/local/` (lien vers un lot temporaire privé hors Bureau synchronisé, pour préserver la signature) ; la préparation n’installe rien.
+
+```sh
+export DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer
+python3 scripts/prepare-local-app.py --offline --package-cache /tmp/outilVizMd-derived/SourcePackages
+build/local/install-local-app install --source build/local/outilVizMd.app --dry-run
+build/local/install-local-app install --source build/local/outilVizMd.app
+build/local/install-local-app status --json
+```
+
+Le chemin du cache est à adapter au Mac. Sans cache complet, effectuer une première préparation sans `--offline` (cache par défaut : `build/SourcePackages`), puis réutiliser ce cache. Le mode hors ligne échoue si les révisions verrouillées manquent ; aucun téléchargement n’y est autorisé.
+
+L’installation de référence est **`/Applications/outilVizMd.app`**. Le Bureau reçoit un véritable alias Finder **outilVizMd – ouvrir**, sans deuxième copie. Double-cliquer sur l’un des deux accès présente le lecteur ; Xcode, Terminal et le projet ne sont plus nécessaires à l’usage quotidien. L’outil de préparation/installation n’est pas embarqué dans l’app.
+
+Pour une mise à jour, quitter normalement l’app, préparer une nouvelle Release et exécuter :
+
+```sh
+build/local/install-local-app install --source build/local/outilVizMd.app --replace
+```
+
+Un produit identique n’est pas remplacé. Un produit différent exige `--replace`. Les documents, préférences et autres copies de développement ne sont pas modifiés. L’outil refuse une mise à jour si l’installation tourne, si un objet étranger occupe la destination ou si l’ancien alias ne peut être sécurisé. Aucune élévation de privilèges n’est déclenchée.
+
+Supprimer uniquement l’alias laisse l’application et les documents intacts. Pour le recréer sans compiler ni fournir la source :
+
+```sh
+build/local/install-local-app alias
+```
+
+`--dry-run` simule sans écrire ; `status` inspecte sans lancer l’app. `--json` produit un seul objet sur stdout. Codes : **0** complet/simulation/inspection, **1** app utilisable mais alias ou nettoyage incomplet, **2** conflit/remplacement non autorisé, **3** app active/identité ambiguë, **4** source/manifeste/app invalide, **5** droits/espace/accès, **6** copie/commit/validation, **7** opération concurrente, **8** récupération nécessaire, **64** arguments invalides. La préparation utilise 4/5/6/64 pour ses erreurs.
+
+En cas de conflit, inspecter l’objet puis le déplacer soi-même ; `--replace` ne l’écrase pas. Si seul le Bureau est indisponible, une première installation peut réussir partiellement : rétablir l’accès puis lancer `alias`. Après interruption ou retour arrière incomplet, `status` indique les dossiers privés `.outilVizMd-install-…` et leurs `receipt.json` ; conserver les sauvegardes, comparer les chemins/identités et restaurer manuellement seulement après inspection. Ne pas supprimer aveuglément ces dossiers. Le verrou `.outilVizMd-deployment.lock` est conservé pour coordonner les exécutions ; l’existence du fichier ne signifie pas qu’un processus détient le verrou.
+
+Si une ancienne icône reste en cache, quitter/relancer l’app puis fermer/rouvrir la fenêtre Finder ; vérifier la cible du raccourci, la version et `Contents/Resources/AppIcon.icns`. Aucune purge globale, suppression de quarantaine ou désactivation de Gatekeeper n’est nécessaire à la procédure. La signature est destinée à ce Mac, sans promesse de distribution publique sur d’autres Macs.
+
+Tests isolés : `python3 -m unittest discover -s scripts/tests` et `swift test --package-path tools/LocalDeployment`. Le harnais de lancement système est opt-in via `OUTILVIZMD_TEST_INSTALLED_APP=/Applications/outilVizMd.app`. Les preuves, plateformes réellement exécutées et contrôles restant à faire sont consignés dans [la validation de l’installation](specs/003-installer-app-icone/validation.md) ; une construction universelle ne certifie pas une exécution Intel ou macOS 14.
+
+Validation de l’installation du 7 novembre 2026 : **95 tests automatisés réussis**, vingt accès Finder observés, app et alias installés. Les contrôles après redémarrage, en session sans projet/temporaires et sur les quatre surfaces d’icône restent détaillés dans le rapport 003 ; la recette complète n’est pas certifiée.

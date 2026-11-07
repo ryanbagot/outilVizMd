@@ -365,6 +365,16 @@
 			"isa" = "PBXBuildFile";
 			"fileRef" = "A3F8575EC841B69CB19082D8";
 		};
+		"7EE0C91519A96CC2F8D75011" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "image.icns";
+			"path" = "Resources/AppIcon.icns";
+			"sourceTree" = "<group>";
+		};
+		"F75FF2251EE05EAB5E67205F" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "7EE0C91519A96CC2F8D75011";
+		};
 		"3745AFD174CCBB0790FC29E9" = {
 			"isa" = "PBXFileReference";
 			"lastKnownFileType" = "text.json";
@@ -530,6 +540,7 @@
 				"E2ADE655B64F6E14E76DE8D4",
 				"AE61C5F9151EDF6B808B9C59",
 				"A3F8575EC841B69CB19082D8",
+				"7EE0C91519A96CC2F8D75011",
 				"3745AFD174CCBB0790FC29E9",
 				"B58A9DD18ECBF0E33DFBC9BF",
 				"BB7E95B6DE4F070B0EC04B7D",
@@ -618,6 +629,7 @@
 			"buildActionMask" = 2147483647;
 			"files" = (
 				"23C3444D8EF314E908FBAB2C",
+				"F75FF2251EE05EAB5E67205F",
 				"8089FACF92A397CED51FC456",
 				"897FAC6D4014C29CA664E9C7",
 				"2E5A1744BFD1E5F012FD87A1",
@@ -645,6 +657,8 @@
 				"ENABLE_USER_SELECTED_FILES" = "readonly";
 				"INFOPLIST_KEY_LSApplicationCategoryType" = "public.app-category.productivity";
 				"INFOPLIST_KEY_CFBundleDisplayName" = "outilVizMd";
+				"INFOPLIST_KEY_CFBundleIconFile" = "AppIcon.icns";
+				"INFOPLIST_FILE" = "outilVizMd/Info.plist";
 				"MARKETING_VERSION" = "0.1.0";
 				"CURRENT_PROJECT_VERSION" = "1";
 				"ENABLE_HARDENED_RUNTIME" = "YES";
@@ -673,6 +687,8 @@
 				"ENABLE_USER_SELECTED_FILES" = "readonly";
 				"INFOPLIST_KEY_LSApplicationCategoryType" = "public.app-category.productivity";
 				"INFOPLIST_KEY_CFBundleDisplayName" = "outilVizMd";
+				"INFOPLIST_KEY_CFBundleIconFile" = "AppIcon.icns";
+				"INFOPLIST_FILE" = "outilVizMd/Info.plist";
 				"MARKETING_VERSION" = "0.1.0";
 				"CURRENT_PROJECT_VERSION" = "1";
 				"ENABLE_HARDENED_RUNTIME" = "YES";
@@ -1315,6 +1331,16 @@
 			"isa" = "PBXBuildFile";
 			"fileRef" = "044C9DC9DCA3D21A4167840A";
 		};
+		"84E1C4357785090C7FC58CD6" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "ReopenJourneyTests.swift";
+			"sourceTree" = "<group>";
+		};
+		"8D6192BE13539B37472A38FB" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "84E1C4357785090C7FC58CD6";
+		};
 		"E6ABB51BE8DA2720B97D3AD5" = {
 			"isa" = "PBXFileReference";
 			"lastKnownFileType" = "sourcecode.swift";
@@ -1335,6 +1361,7 @@
 				"8B3A9EE50FDFF94EF2AEE828",
 				"D9752BA8885BCC554A69E033",
 				"044C9DC9DCA3D21A4167840A",
+				"84E1C4357785090C7FC58CD6",
 				"E6ABB51BE8DA2720B97D3AD5",
 			);
 			"path" = "outilVizMdUITests";
@@ -1358,6 +1385,7 @@
 				"BDC06728DBC632C01BAC5AC0",
 				"54664B0EA492BDD19ECCD3BC",
 				"4DC7ADE7BEBAED6D58D0E9E8",
+				"8D6192BE13539B37472A38FB",
 				"421697411B206AAA335A06F8",
 			);
 			"runOnlyForDeploymentPostprocessing" = 0;

@@ -23,3 +23,14 @@ Le lecteur ne possède aucune commande d’édition ou de sauvegarde du document
 
 En cas de difficulté
 Vérifiez l’encodage UTF-8 et la taille du fichier, puis utilisez Réessayer. Si l’accès manque, choisissez le fichier ou son dossier. Annuler une sélection conserve votre session. Les erreurs d’enregistrement des réglages ne bloquent pas la lecture : les valeurs restent appliquées pendant la session.
+
+Applications et Bureau
+Après l’installation locale, ouvrez /Applications/outilVizMd.app par double-clic, ou utilisez l’alias outilVizMd – ouvrir au Bureau. Les deux accès désignent la même application. Une nouvelle sollicitation présente le lecteur existant, même après réduction ou fermeture de sa fenêtre. Xcode, Terminal, le projet et l’image originale ne sont pas nécessaires aux lancements quotidiens.
+
+Mettre à jour et réparer l’accès
+Quittez normalement l’app avant une mise à jour locale. Depuis le dossier du projet, préparez la nouvelle version avec python3 scripts/prepare-local-app.py, puis lancez build/local/install-local-app install --source build/local/outilVizMd.app --replace. La procédure conserve documents et préférences. Supprimer uniquement l’alias ne supprime pas l’app : build/local/install-local-app alias le recrée sans recompilation ni source à fournir.
+
+Un conflit avec un objet étranger n’est jamais écrasé : inspectez-le avant de le déplacer vous-même. Si l’installation réussit mais que le Bureau est inaccessible, l’app reste utilisable depuis Applications ; rétablissez l’accès puis réparez l’alias. build/local/install-local-app status indique l’état réel et les éventuels chemins de récupération. Après interruption, conservez les sauvegardes indiquées et consultez la procédure du README avant restauration manuelle.
+
+Icône ancienne
+Quittez et relancez l’app, puis fermez et rouvrez la fenêtre Finder. Vérifiez que l’alias désigne /Applications/outilVizMd.app et que la version attendue est installée. Ne remplacez pas l’image manuellement dans Finder ; ne purgez pas les caches globaux et ne désactivez pas les protections de macOS.

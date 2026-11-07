@@ -47,12 +47,12 @@ for name, product_type, extension in targets:
         source_refs.append(fixture_ref)
         resources.append(obj("fixtures-build", "PBXBuildFile", fileRef=fixture_ref))
     for p in sorted(folder.rglob("*")):
-        if not p.is_file() or p.name.startswith("."):
+        if not p.is_file() or p.name.startswith(".") or p.name == "Info.plist":
             continue
         if name == "outilVizMdTests" and p.relative_to(folder).parts[0] == "Fixtures":
             continue
         rel = p.relative_to(ROOT).as_posix()
-        file_type = {".swift": "sourcecode.swift", ".entitlements": "text.plist.entitlements", ".md": "net.daringfireball.markdown", ".json": "text.json", ".css": "text.css", ".txt": "text", ".png": "image.png", ".jpg": "image.jpeg", ".gif": "image.gif"}.get(p.suffix, "file")
+        file_type = {".swift": "sourcecode.swift", ".entitlements": "text.plist.entitlements", ".md": "net.daringfireball.markdown", ".json": "text.json", ".css": "text.css", ".txt": "text", ".icns": "image.icns", ".png": "image.png", ".jpg": "image.jpeg", ".gif": "image.gif"}.get(p.suffix, "file")
         source_refs.append(obj("file:" + rel, "PBXFileReference", lastKnownFileType=file_type, path=p.relative_to(folder).as_posix(), sourceTree="<group>"))
         if p.suffix == ".swift":
             sources.append(obj("build:" + rel, "PBXBuildFile", fileRef=ref("file:" + rel)))
@@ -66,7 +66,7 @@ for name, product_type, extension in targets:
     for config in ["Debug", "Release"]:
         settings = dict(PRODUCT_NAME="$(TARGET_NAME)", PRODUCT_BUNDLE_IDENTIFIER="com.outilvizmd." + name, GENERATE_INFOPLIST_FILE="YES", CODE_SIGN_IDENTITY="-", CODE_SIGN_STYLE="Manual", SWIFT_VERSION="5.0", SWIFT_STRICT_CONCURRENCY="complete", MACOSX_DEPLOYMENT_TARGET="14.0", LD_RUNPATH_SEARCH_PATHS=["$(inherited)", "@executable_path/../Frameworks", "@loader_path/../Frameworks"])
         if name == "outilVizMd":
-            settings.update(CODE_SIGN_ENTITLEMENTS="outilVizMd/outilVizMd.entitlements", ENABLE_APP_SANDBOX="YES", ENABLE_USER_SELECTED_FILES="readonly", INFOPLIST_KEY_LSApplicationCategoryType="public.app-category.productivity", INFOPLIST_KEY_CFBundleDisplayName="outilVizMd", MARKETING_VERSION="0.1.0", CURRENT_PROJECT_VERSION="1", ENABLE_HARDENED_RUNTIME="YES", CODE_SIGN_INJECT_BASE_ENTITLEMENTS="YES" if config == "Debug" else "NO")
+            settings.update(CODE_SIGN_ENTITLEMENTS="outilVizMd/outilVizMd.entitlements", ENABLE_APP_SANDBOX="YES", ENABLE_USER_SELECTED_FILES="readonly", INFOPLIST_KEY_LSApplicationCategoryType="public.app-category.productivity", INFOPLIST_KEY_CFBundleDisplayName="outilVizMd", INFOPLIST_KEY_CFBundleIconFile="AppIcon.icns", INFOPLIST_FILE="outilVizMd/Info.plist", MARKETING_VERSION="0.1.0", CURRENT_PROJECT_VERSION="1", ENABLE_HARDENED_RUNTIME="YES", CODE_SIGN_INJECT_BASE_ENTITLEMENTS="YES" if config == "Debug" else "NO")
         elif name == "outilVizMdTests":
             settings.update(TEST_HOST="$(BUILT_PRODUCTS_DIR)/outilVizMd.app/Contents/MacOS/outilVizMd", BUNDLE_LOADER="$(TEST_HOST)")
         else:
